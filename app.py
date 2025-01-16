@@ -1,58 +1,120 @@
-from flask import Flask, render_template, request, jsonify
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import json
-from datetime import datetime
-from prediction import generate_test_plan, personalize_test_plan
+import joblib
+import numpy as np
 
-app = Flask(__name__)
+# Initialize the FastAPI app
+app = FastAPI()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Load the Random Forest model
+rf_model = joblib.load("random_forest_model.pkl")
 
-@app.route('/generate_test_plan', methods=['POST'])
-def generate_plan():
-    try:
-        # Get form data
-        exam_year = int(request.form['exam_year'])
-        target_marks = int(request.form['target_marks'])
-        weak_subject = request.form['weak_subject']
-        strong_subject = request.form['strong_subject']
+# Load the syllabus data
+with open("cleaned.json", "r") as f:
+    syllabus = json.load(f)
 
-        # Calculate available time
-        exam_date = datetime(exam_year, 5, 4)
-        today = datetime.now()
-        available_time = (exam_date - today).days
-        if available_time <= 0:
-            raise ValueError("Exam date is in the past or invalid.")
+# Define request models
+class PlanRequest(BaseModel):
+    target_marks: int
+    weak_subject: str
+    strong_subject: str
+    available_time: int  # Available time in days
 
-        # Generate the initial test plan using rule-based algorithm
-        subject_wise_plan, chapter_wise_plan = generate_test_plan(
-            target_marks, weak_subject, strong_subject, available_time
-        )
+class FeedbackData(BaseModel):
+    weightage: int
+    accuracy: int
+    time_spent: int
+    num_tests: int
+    chapter_difficulty: int
 
-        # Render the initial test plan
-        return render_template(
-            'test_plan.html',
-            subject_wise_plan=subject_wise_plan,
-            chapter_wise_plan=chapter_wise_plan,
-            feedback_mode=False
-        )
-    except Exception as e:
-        return render_template('error.html', message=f"An error occurred: {str(e)}"), 500
+# Rule-based algorithm for initial test plan generation
+def generate_test_plan(target_marks, weak_subject, strong_subject, available_time):
+    allocated_marks = {}
+    
+    # Rule-based allocation of marks
+    if strong_subject == "Chemistry":
+        allocated_marks["Chemistry"] = 180
+        remaining_marks = target_marks - 180
+        if weak_subject == "Biology":
+            allocated_marks["Physics"] = min(remaining_marks * 0.55, 180)
+            allocated_marks["Biology"] = target_marks - allocated_marks["Chemistry"] - allocated_marks["Physics"]
+        elif weak_subject == "Physics":
+            allocated_marks["Biology"] = min(remaining_marks * 0.55, 360)
+            allocated_marks["Physics"] = target_marks - allocated_marks["Chemistry"] - allocated_marks["Biology"]
+    elif strong_subject == "Biology":
+        allocated_marks["Biology"] = 360
+        remaining_marks = target_marks - 360
+        if remaining_marks < 0:
+            allocated_marks["Biology"] = target_marks * 0.5
+            allocated_marks["Chemistry"] = target_marks * 0.25
+            allocated_marks["Physics"] = target_marks * 0.25
+        elif weak_subject == "Physics":
+            allocated_marks["Chemistry"] = min(remaining_marks * 0.55, 180)
+            allocated_marks["Physics"] = target_marks - allocated_marks["Biology"] - allocated_marks["Chemistry"]
+        elif weak_subject == "Chemistry":
+            allocated_marks["Physics"] = min(remaining_marks * 0.55, 180)
+            allocated_marks["Chemistry"] = target_marks - allocated_marks["Biology"] - allocated_marks["Physics"]
+    elif strong_subject == "Physics":
+        allocated_marks["Physics"] = 180
+        remaining_marks = target_marks - 180
+        if weak_subject == "Chemistry":
+            allocated_marks["Biology"] = min(remaining_marks * 0.55, 360)
+            allocated_marks["Chemistry"] = target_marks - allocated_marks["Physics"] - allocated_marks["Biology"]
+        elif weak_subject == "Biology":
+            allocated_marks["Chemistry"] = min(remaining_marks * 0.55, 180)
+            allocated_marks["Biology"] = target_marks - allocated_marks["Physics"] - allocated_marks["Chemistry"]
 
-@app.route('/update_plan', methods=['POST'])
-def update_plan():
-    try:
-        # Get form data
-        feedback_data = request.form.to_dict()
+    # Generate the test plan
+    subject_wise_plan = {}
+    chapter_wise_plan = []
+    for subject, marks in allocated_marks.items():
+        if subject not in syllabus:
+            continue
 
-        # Generate updated plan
-        updated_plan = personalize_test_plan(feedback_data)
+        chapters = syllabus[subject]
+        total_weightage = sum(int(chapters[ch]["weightage"]) for ch in chapters)
+        subject_plan = []
+        total_time = available_time * (marks / target_marks)
 
-        # Render the updated plan
-        return render_template('updated_plan.html', updated_plan=updated_plan)
-    except Exception as e:
-        return render_template('error.html', message=f"An error occurred: {str(e)}"), 500
+        for chapter, details in chapters.items():
+            chapter_weightage = int(details.get("weightage", 0))
+            allocated_marks_chapter = max(1, int((chapter_weightage / total_weightage) * marks))
+            allocated_questions = allocated_marks_chapter // 4
+            allocated_time = total_time * (allocated_marks_chapter / marks)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+            # Prepare the response for the chapter
+            chapter_plan = {
+                "chapter": chapter,
+                "allocated_questions": allocated_questions,
+                "allocated_time": f"{allocated_time:.2f} days",
+                "recommended_tests": max(1, allocated_questions // 3),
+            }
+            subject_plan.append(chapter_plan)
+            chapter_wise_plan.append(chapter_plan)
+
+        subject_wise_plan[subject] = {"chapters": subject_plan}
+    
+    return subject_wise_plan, chapter_wise_plan
+
+# Route for generating the test plan using rule-based logic
+@app.post("/generate_test_plan")
+def generate_plan(plan: PlanRequest):
+    subject_wise_plan, chapter_wise_plan = generate_test_plan(
+        plan.target_marks, plan.weak_subject, plan.strong_subject, plan.available_time
+    )
+    return {"subject_wise_plan": subject_wise_plan, "chapter_wise_plan": chapter_wise_plan}
+
+# Route for personalizing the test plan using the Random Forest model
+@app.post("/personalize_test_plan")
+def personalize_plan(feedback: FeedbackData):
+    model_input = np.array([[feedback.weightage, feedback.accuracy, feedback.time_spent, feedback.num_tests, feedback.chapter_difficulty]])
+    recommended_tests = rf_model.predict(model_input)[0]
+
+    # Build the updated test plan
+    updated_plan = {
+        "allocated_questions": recommended_tests * 3,  # Example logic
+        "allocated_time": f"{recommended_tests * 1.5:.2f} days",  # Example logic
+        "recommended_tests": recommended_tests
+    }
+    return updated_plan
