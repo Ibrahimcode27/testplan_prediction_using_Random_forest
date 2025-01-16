@@ -1,0 +1,386 @@
+{
+    "Physics": {
+        "Unit I: Physics and Measurement": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit II: Kinematics": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit III: Laws of Motion": {
+            "weightage": 3,
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            "focus_priority": "High"
+        },
+        "Unit IV: Work, Energy and Power": {
+            "weightage": 3,
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            "focus_priority": "High"
+        },
+        "Unit V: Rotational Motion": {
+            "weightage": 3,
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            "focus_priority": "High"
+        },
+        "Unit VI: Gravitation": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit VII: Properties of Solids and Liquids": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit VIII: Thermodynamics": {
+            "weightage": 3,
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            "focus_priority": "High"
+        },
+        "Unit IX: Kinetic Theory of Gases": {
+            "weightage": 1,
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            "focus_priority": "Low"
+        },
+        "Unit X: Oscillations and Waves": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit XI: Electrostatics": {
+            "weightage": 3,
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            "focus_priority": "High"
+        },
+        "Unit XII: Current Electricity": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        },
+        "Unit XIII: Magnetic Effects of Current and Magnetism": {
+            "weightage": 3,
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit XIV: Electromagnetic Induction And Alternating Currents": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XV: Electromagnetic Waves": {
+            "weightage": 1,
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            "focus_priority": "Low"
+        },
+        "Unit XVI: Optics": {
+            "weightage": 3,
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit XVII: Dual Nature of Matter and Radiation": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XVIII: Atoms and Nuclei": {
+            "weightage": 1,
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        },
+        "Unit XIX: Electronic Devices": {
+            "weightage": 1,
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        }
+    },
+    "Chemistry": {
+        "Unit I: Some Basic Concepts of Chemistry": {
+            "weightage": 2,
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit II: Atomic Structure": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit III: Chemical Bonding and Molecular Structure": {
+            "weightage": "3",
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit IV: Chemical Thermodynamics": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit V: Solutions": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit VI: Equilibrium": {
+            "weightage": "3",
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit VII: Redox Reactions and Electrochemistry": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit VIII: Chemical Kinetics": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit IX: Classification of Elements and Periodicity": {
+            "weightage": "1",
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        },
+        "Unit X: P-Block Elements": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit XI: d - and f- BLOCK ELEMENTS": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit XII: CO-ORDINATION COMPOUNDS": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit XIII: Purification and Characterisation of Organic Compounds": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XIV: Some Basic Principles of Organic Chemistry": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XV: Hydrocarbons": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XVI: Organic Compounds Containing Halogen": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XVII: Organic Compound Containing Oxygen": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XVIII: Organic Compounds Containing Nitrogen": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XIX: Biomolecules": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit XX: Principles Related to Practical Chemistry": {
+            "weightage": "1",
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        }
+    },
+    "Biology": {
+        "Unit I: Diversity in Living World": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit II: Structural Organisation in Animals and Plants": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit III: Cell Structure and Function": {
+            "weightage": "3",
+            "expected_questions": 10,
+            "difficulty": "Hard",
+            "time_to_complete": "8 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit IV: Plant Physiology": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit V: Human Physiology": {
+            "weightage": "3",
+            "expected_questions": 8,
+            "difficulty": "Hard",
+            "time_to_complete": "6 hours",
+            
+            "focus_priority": "High"
+        },
+        "Unit VI: Reproduction": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit VII: Genetics and Evolution": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            
+            "focus_priority": "Medium"
+        },
+        "Unit VIII: Biology and Human Welfare": {
+            "weightage": "1",
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        },
+        "Unit IX: Biotechnology and Its Applications": {
+            "weightage": "1",
+            "expected_questions": 2,
+            "difficulty": "Easy",
+            "time_to_complete": "2 hours",
+            
+            "focus_priority": "Low"
+        },
+        "Unit X: Ecology and Environment": {
+            "weightage": "2",
+            "expected_questions": 5,
+            "difficulty": "2",
+            "time_to_complete": "4 hours",
+            "focus_priority": "Medium"
+        }
+    }
+}

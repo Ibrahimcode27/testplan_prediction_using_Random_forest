@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Test Plan</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+td {
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.dropdown {
+    margin: 1rem 0;
+}
+
+.dropdown button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown button:hover {
+    background-color: #0056b3;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.success-message {
+    color: green;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f1f1f1;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+    </style>
+    <script>
+        function toggleDropdown(subject) {
+            const dropdown = document.getElementById(`dropdown-${subject}`);
+            dropdown.classList.toggle('active');
+        }
+
+        async function updatePlan(event) {
+            event.preventDefault();
+
+            const feedbackData = {
+                weightage: document.getElementById("weightage").value,
+                accuracy: document.getElementById("accuracy").value,
+                time_spent: document.getElementById("time_spent").value,
+                num_tests: document.getElementById("num_tests").value,
+                chapter_difficulty: document.getElementById("chapter_difficulty").value,
+            };
+
+            try {
+                const response = await fetch('/update_test_plan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(feedbackData)
+                });
+
+                const updatedPlan = await response.json();
+                if (response.ok) {
+                    document.getElementById("updated-plan").innerHTML = `
+                        <h3>Updated Plan</h3>
+                        <p>Recommended Tests: ${updatedPlan.recommended_tests}</p>
+                        <p>Allocated Questions: ${updatedPlan.allocated_questions}</p>
+                        <p>Allocated Time: ${updatedPlan.allocated_time}</p>
+                    `;
+                } else {
+                    alert(`Error: ${updatedPlan.error}`);
+                }
+            } catch (error) {
+                console.error("Failed to update plan:", error);
+                alert("An error occurred while updating the plan.");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Generated Test Plan</h1>
+    </header>
+    <div class="container">
+        <h2>Chapter-Wise Plan</h2>
+        {% for subject, chapters in subject_wise_plan.items() %}
+        <div>
+            <h3>{{ subject }}</h3>
+            <div class="dropdown" id="dropdown-{{ subject }}">
+                <button onclick="toggleDropdown('{{ subject }}')">Show Chapters for {{ subject }}</button>
+                <div class="dropdown-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chapter</th>
+                                <th>Allocated Questions</th>
+                                <th>Allocated Time</th>
+                                <th>Recommended Tests</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for chapter in chapters.chapters %}
+                            <tr>
+                                <td>{{ chapter.chapter }}</td>
+                                <td>{{ chapter.allocated_questions }}</td>
+                                <td>{{ chapter.allocated_time }}</td>
+                                <td>{{ chapter.recommended_tests }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <h2>Personalize Plan</h2>
+        <form action="/update_plan" method="POST">
+            <label for="weightage">Weightage:</label>
+            <input type="number" id="weightage" name="weightage" required><br><br>
+        
+            <label for="accuracy">Accuracy (%):</label>
+            <input type="number" id="accuracy" name="accuracy" required><br><br>
+        
+            <label for="time_spent">Time Spent (hours):</label>
+            <input type="number" id="time_spent" name="time_spent" required><br><br>
+        
+            <label for="num_tests">Number of Tests:</label>
+            <input type="number" id="num_tests" name="num_tests" required><br><br>
+        
+            <label for="chapter_difficulty">Chapter Difficulty (1-3):</label>
+            <input type="number" id="chapter_difficulty" name="chapter_difficulty" required><br><br>
+        
+            <label for="difficulty">Difficulty Level:</label>
+            <select id="difficulty" name="difficulty">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+            </select><br><br>
+        
+            <button type="submit">Update Plan</button>
+        </form>
+
+
+        <div id="updated-plan"></div>
+    </div>
+</body>
+
+</html>
