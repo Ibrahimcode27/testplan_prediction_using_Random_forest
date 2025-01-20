@@ -98,23 +98,27 @@ def generate_test_plan(target_marks, weak_subject, strong_subject, available_tim
     return subject_wise_plan, chapter_wise_plan
 
 # Route for generating the test plan using rule-based logic
-@app.post("/generate_test_plan")
-def generate_plan(plan: PlanRequest):
-    subject_wise_plan, chapter_wise_plan = generate_test_plan(
-        plan.target_marks, plan.weak_subject, plan.strong_subject, plan.available_time
-    )
-    return {"subject_wise_plan": subject_wise_plan, "chapter_wise_plan": chapter_wise_plan}
-
-# Route for personalizing the test plan using the Random Forest model
 @app.post("/personalize_test_plan")
 def personalize_plan(feedback: FeedbackData):
+    # Prepare input for the model with 5 features
     model_input = np.array([[feedback.weightage, feedback.accuracy, feedback.time_spent, feedback.num_tests, feedback.chapter_difficulty]])
+    
+    # Predict recommended tests using the model
     recommended_tests = rf_model.predict(model_input)[0]
-
-    # Build the updated test plan
+    
+    # Apply custom rules to modify the prediction
+    if feedback.accuracy > 75:
+        if feedback.num_tests > 2:
+            recommended_tests = 0
+        elif feedback.num_tests > 1:
+            recommended_tests = 1
+    elif feedback.accuracy < 30:
+        pass  # Keep the predicted value as is if accuracy < 30%
+    
+    # Build the updated test plan using the modified recommended_tests
     updated_plan = {
-        "allocated_questions": recommended_tests * 3,  # Example logic
-        "allocated_time": f"{recommended_tests * 1.5:.2f} days",  # Example logic
-        "recommended_tests": recommended_tests
+        "allocated_questions": max(1, int(recommended_tests) * 3),
+        "allocated_time": f"{max(1, recommended_tests * 1.5):.2f} days",
+        "recommended_tests": int(recommended_tests)
     }
     return updated_plan
