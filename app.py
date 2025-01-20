@@ -98,6 +98,13 @@ def generate_test_plan(target_marks, weak_subject, strong_subject, available_tim
     return subject_wise_plan, chapter_wise_plan
 
 # Route for generating the test plan using rule-based logic
+@app.post("/generate_test_plan")
+def generate_plan(plan: PlanRequest):
+    subject_wise_plan, chapter_wise_plan = generate_test_plan(
+        plan.target_marks, plan.weak_subject, plan.strong_subject, plan.available_time
+    )
+    return {"subject_wise_plan": subject_wise_plan, "chapter_wise_plan": chapter_wise_plan}
+
 @app.post("/personalize_test_plan")
 def personalize_plan(feedback: FeedbackData):
     # Prepare input for the model with 5 features
